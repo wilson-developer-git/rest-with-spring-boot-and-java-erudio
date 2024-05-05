@@ -10,6 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v1.PersonVO;
+import br.com.erudio.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
 import br.com.erudio.model.Person;
@@ -51,6 +52,8 @@ public class PersonServices {
 	}
 
 	public PersonVO create(PersonVO person) throws Exception {
+		
+		if(person == null) throw new RequiredObjectIsNullException();
 
 		logger.info("Creating one person");
 		
@@ -61,17 +64,19 @@ public class PersonServices {
 		return vo;
 	}
 	
-	public PersonVO update(PersonVO PersonVO) throws Exception {
+	public PersonVO update(PersonVO person) throws Exception {
 
-		logger.info("Updating one PersonVOV2");
+		if(person == null) throw new RequiredObjectIsNullException();
+		
+		logger.info("Updating one person");
 
-		var entity = repository.findById(PersonVO.getKey())
+		var entity = repository.findById(person.getKey())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
-		entity.setFirstName(PersonVO.getFirstName());
-		entity.setLastName(PersonVO.getLastName());
-		entity.setAddress(PersonVO.getAddress());
-		entity.setGender(PersonVO.getGender());
+		entity.setFirstName(person.getFirstName());
+		entity.setLastName(person.getLastName());
+		entity.setAddress(person.getAddress());
+		entity.setGender(person.getGender());
 
 		var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class); ;
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());

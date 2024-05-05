@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.erudio.data.vo.v1.PersonVO;
 import br.com.erudio.services.PersonServices;
 import br.com.erudio.util.MediaType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("api/person/v1")
+@Tag(name = "People", description = "Endpoints for Managing People")
 public class PersonController {
 
 	@Autowired
