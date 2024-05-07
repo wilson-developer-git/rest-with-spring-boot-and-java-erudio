@@ -20,9 +20,6 @@ public class OpenApiConfig {
 				.termsOfService("https://www.wilson.com.br")
 				.license(new License()
 						.name("Apache 2.0")
-						.url("https://pub.wilson.com.br"))
-			);
-		
-	}
-	
+						.url("https://pub.wilson.com.br")));
+	}	
 }
